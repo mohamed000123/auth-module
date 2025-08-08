@@ -1,0 +1,25 @@
+{
+  "name": "auth-module",
+  "version": "1.0.0",
+  "description": "simple apartments app with crud operations ",
+  "main": "index.ts",
+  "scripts": {
+    "dev": "ts-node-dev --respawn src/server.ts"
+  },
+  "author": "mohamed-amin",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "joi": "^17.13.3",
+    "mongoose": "^8.16.5",
+    "@types/cors": "^2.8.19",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/mongoose": "^5.11.97",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.8.3"
+  }
+}
