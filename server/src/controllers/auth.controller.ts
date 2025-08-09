@@ -10,14 +10,20 @@ export const signup = async (req: Request, res: Response) => {
     if (existingUser) throw new Error("User already exists");
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = (await User.create({
+    const user = await User.create({
       email,
       name,
       password: hashedPassword,
-    })) 
-    const { password: _, ...userData } = user;
-    const result = { token: generateToken(user._id), user: userData };
-    res.status(201).json(result);
+    });
+    const token = generateToken(user._id);
+    res.cookie("token", token, {
+      httpOnly: true,      
+      secure: process.env.NODE_ENV === "production", 
+      sameSite: "strict",    
+      maxAge:  24 * 60 * 60 * 1000 
+    });
+    const { password: _, ...userData } = user.toObject();
+    res.status(201).json({ user: userData });
   } catch (error: any) {
     res.status(400).json({ message: error.message });
   }
@@ -26,17 +32,32 @@ export const signup = async (req: Request, res: Response) => {
 export const signin = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
-    const user = (await User.findOne({ email }).lean()) as UserInterface | null;
+    const user = await User.findOne({ email }) as UserInterface | null;
     if (!user) throw new Error("Invalid credentials");
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) throw new Error("Invalid credentials");
-    const { password: _password, ...userData } = user;
-    const result = { token: generateToken(user._id), userData };
-    console.log(result);
-    
-    res.status(200).json(result);
+
+    const token = generateToken(user._id);
+    const { password: _, ...userData } = user.toObject();
+    res.cookie("token", token, {
+      httpOnly: true,      
+      secure: process.env.NODE_ENV === "production", 
+      sameSite: "strict",   
+      maxAge: 24 * 60 * 60 * 1000 
+    });
+
+    res.status(200).json({ user: userData });
   } catch (error: any) {
     res.status(400).json({ message: error.message });
   }
 };
+
+export const logout = (req: Request, res: Response)=>{
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+  });
+  res.status(200).json({ message: "Logged out successfully" });
+}
