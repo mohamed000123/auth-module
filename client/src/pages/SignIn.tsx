@@ -1,8 +1,7 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import axios from "axios";
 import styles from "../styles/signIn.module.css";
+import { API } from "../config.ts";
 
-const API = axios.create({ baseURL: "http://localhost:5000", withCredentials: true });
 
 export default function SignIn() {
   return (
@@ -11,7 +10,7 @@ export default function SignIn() {
       <Formik
         initialValues={{ email: "", password: "" }}
         onSubmit={async (values, { setSubmitting }) => {
-          await API.post("/auth/signin", values); 
+          await API.post("/auth/signin", values);
           setSubmitting(false);
           window.location.href = "/";
         }}
@@ -29,7 +28,7 @@ export default function SignIn() {
               component="div"
               className={styles.errorMsg}
             />
-            
+
             <Field
               name="password"
               type="password"

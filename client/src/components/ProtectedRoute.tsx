@@ -1,9 +1,8 @@
 // src/components/ProtectedRoute.tsx
 import { JSX, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import axios from "axios";
+import { API } from "../config.ts";
 
-const API = axios.create({ baseURL: "http://localhost:5000", withCredentials: true });
 
 export default function ProtectedRoute({ children }: { children: JSX.Element }) {
   const [loading, setLoading] = useState(true);

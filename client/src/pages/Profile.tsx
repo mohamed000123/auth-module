@@ -1,12 +1,7 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { API } from "../config.ts";
 import styles from "../styles/Profile.module.css";
-
-const API = axios.create({
-  baseURL: "http://localhost:5000",
-  withCredentials: true,
-});
-
+import { useNavigate } from "react-router-dom";
 
 type User = {
   name: string;
@@ -14,6 +9,7 @@ type User = {
 };
 
 export default function Profile() {
+  const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
     const getUserData = async () => {
@@ -22,11 +18,10 @@ export default function Profile() {
     };
     getUserData();
   }, []);
-console.log(user);
 
   const handleLogout = async () => {
     await API.post("/auth/logout");
-    window.location.href = "/login";
+    navigate("/login");
   };
   return (
     <div className={styles.profileContainer}>

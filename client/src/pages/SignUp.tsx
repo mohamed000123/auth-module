@@ -1,9 +1,8 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import styles from "../styles/signIn.module.css";
+import { API } from "../config.ts";
 
-const API = axios.create({ baseURL: "http://localhost:5000", withCredentials: true });
 
 const SignUpSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
