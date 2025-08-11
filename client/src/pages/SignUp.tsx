@@ -1,6 +1,7 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import styles from "../styles/signIn.module.css";
 
 const API = axios.create({ baseURL: "http://localhost:5000", withCredentials: true });
 
@@ -17,8 +18,8 @@ const SignUpSchema = Yup.object().shape({
 
 export default function SignUp() {
   return (
-    <div>
-      <h2>Sign Up</h2>
+    <div className={styles.container}>
+      <h2 className={styles.title}>Sign Up</h2>
       <Formik
         initialValues={{ email: "", name: "", password: "" }}
         validationSchema={SignUpSchema}
@@ -31,16 +32,48 @@ export default function SignUp() {
       >
         {({ isSubmitting }) => (
           <Form>
-            <Field name="email" type="email" placeholder="Email" />
-            <ErrorMessage name="email" component="div" />
-            
-            <Field name="name" placeholder="Name" />
-            <ErrorMessage name="name" component="div" />
+            <Field
+              name="email"
+              type="email"
+              placeholder="Email"
+              className={styles.formField}
+            />
+            <ErrorMessage
+              name="email"
+              component="div"
+              className={styles.errorMsg}
+            />
 
-            <Field name="password" type="password" placeholder="Password" />
-            <ErrorMessage name="password" component="div" />
+            <Field
+              name="name"
+              placeholder="Name"
+              className={styles.formField}
+            />
+            <ErrorMessage
+              name="name"
+              component="div"
+              className={styles.errorMsg}
+            />
 
-            <button type="submit" disabled={isSubmitting}>Sign Up</button>
+            <Field
+              name="password"
+              type="password"
+              placeholder="Password"
+              className={styles.formField}
+            />
+            <ErrorMessage
+              name="password"
+              component="div"
+              className={styles.errorMsg}
+            />
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className={styles.submitBtn}
+            >
+              Sign Up
+            </button>
           </Form>
         )}
       </Formik>

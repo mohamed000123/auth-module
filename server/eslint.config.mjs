@@ -1,7 +1,11 @@
 // @ts-check
+// @ts-ignore
 import eslint from '@eslint/js';
+// @ts-ignore
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+// @ts-ignore
 import globals from 'globals';
+// @ts-ignore
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
@@ -20,6 +24,7 @@ export default tseslint.config(
       sourceType: 'commonjs',
       parserOptions: {
         projectService: true,
+        // @ts-ignore
         tsconfigRootDir: import.meta.dirname,
       },
     },

@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
-import HomePage from "./pages/Home.tsx";
+import Profile from "./pages/Profile.tsx";
 import SignIn from "./pages/SignIn.tsx";
 import SignUp from "./pages/SignUp.tsx";
 import NotFound from "./pages/NotFound.tsx";
@@ -15,7 +15,7 @@ function App() {
           path="/"
           element={
             <ProtectedRoute>
-              <HomePage />
+              <Profile />
             </ProtectedRoute>
           }
         />
