@@ -1,8 +1,9 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import styles from "../styles/signIn.module.css";
+import { Navigate } from "react-router-dom";
 import { API } from "../config.ts";
-
+import { useEffect, useState } from "react";
 
 const SignUpSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -16,6 +17,23 @@ const SignUpSchema = Yup.object().shape({
 });
 
 export default function SignUp() {
+  const [loading, setLoading] = useState(true);
+  const [isAuth, setIsAuth] = useState(false);
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        await API.get("/auth/check");
+        setIsAuth(true);
+      } catch (error) {
+        setIsAuth(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+    checkAuth();
+  }, []);
+  if (loading) return <div>Loading...</div>;
+  if (isAuth) return <Navigate to="/" />;
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Sign Up</h2>
