@@ -1,7 +1,7 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import styles from "../styles/signIn.module.css";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { API } from "../config.ts";
 import { useEffect, useState } from "react";
 
@@ -17,6 +17,7 @@ const SignUpSchema = Yup.object().shape({
 });
 
 export default function SignUp() {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [isAuth, setIsAuth] = useState(false);
   useEffect(() => {
@@ -43,8 +44,8 @@ export default function SignUp() {
         onSubmit={async (values, { setSubmitting }) => {
           await API.post("/auth/signup", values);
           setSubmitting(false);
-          alert("Account created! Please sign in.");
-          window.location.href = "/login";
+          alert("Account created successfully");
+          navigate("/");
         }}
       >
         {({ isSubmitting }) => (
